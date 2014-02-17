@@ -28,7 +28,7 @@ my_cards = Hash.new {|hash,key| hash[key] = [] }
 #my_cards[:club] = []
 #my_cards[:diamond] = []
 #my_cards[:joke] = []
-
+player_a = ['id1', 'id22', 'id3', 'id4', 'id5']
 player_a.each_with_index do |item, index|
     puts "#{index} : #{CARDS_HASH[item]}"
     puts "sort cards by num"
@@ -67,9 +67,75 @@ player_a.each_with_index do |item, index|
     end
 end
 pp my_cards
-puts my_cards.keys.sort
+kind = ''
+nums = my_cards.keys.sort
+if my_cards[nums[0]] == my_cards[nums[1]] 
+    puts "true"
+end
+
+if nums.count == 5
+    if nums[4][-2,2].to_i - nums[0][-2,2].to_i == 4 
+        flush = 1
+        1.upto(4) do |id|
+            if my_cards[nums[0]] != my_cards[nums[id]]
+                flush = 0
+                break
+            end
+        end
+
+        if flush == 1
+            kind = 'stright_flush'
+            puts kind
+        else
+            kind = 'stright'
+            puts kind
+        end
+    else
+        kind = 'single'
+        puts kind
+    end
+end
+
+if nums.count == 4
+    kind = 'pair'
+    puts kind
+end
+
+if nums.count == 3
+    #Todo
+    my_cards[nums[id]]
+end
+
+if nums.count == 2
+
+    kind = '4of1kind'
+    puts kind
+end
+
+
 
 def kinds_of cards
+    # stright flush and flush
+    kind = ''
+    if nums.count == 5
+    if nums[4][-2,2].to_i - nums[0][-2,2].to_i == 4 
+        flush = 1
+        1.upto(4) do |id|
+            if my_cards[nums[0]] != my_cards[nums[id]]
+                flush = 0
+                break
+            end
+        end
+
+        if flush == 1
+            kind = 'stright_flush'
+            puts kind
+        else
+            kind = 'stright'
+            puts kind
+        end
+    end
+    end
     # TODO
 end
 
