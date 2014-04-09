@@ -23,42 +23,56 @@ player_c = []
 }
 
 my_cards = Hash.new {|hash,key| hash[key] = [] }
+my_colors = []
 #my_cards[:spade] = []
 #my_cards[:heart] = []
 #my_cards[:club] = []
 #my_cards[:diamond] = []
 #my_cards[:joke] = []
-player_a = ['id1', 'id22', 'id3', 'id4', 'id5']
+player_a = ['id42', 'id21', 'id3', 'id4', 'id5', 'id6', 'id7']
 player_a.each_with_index do |item, index|
     puts "#{index} : #{CARDS_HASH[item]}"
     puts "sort cards by num"
     case CARDS_HASH[item]['num']
     when 1
         my_cards[:num01] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 2
         my_cards[:num02] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 3
         my_cards[:num03] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 4
         my_cards[:num04] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 5
         my_cards[:num05] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 6
         my_cards[:num06] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 7
         my_cards[:num07] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 8
         my_cards[:num08] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 9
         my_cards[:num09] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 10
         my_cards[:num10] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 11
         my_cards[:num11] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 12
         my_cards[:num12] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     when 13
         my_cards[:num13] << CARDS_HASH[item]['color']
+        my_colors << CARDS_HASH[item]['color']
     else 
         #puts 'joke'
         #puts CARDS_HASH[item]['num']
@@ -66,11 +80,37 @@ player_a.each_with_index do |item, index|
         #p my_cards[:joke]
     end
 end
+puts '==============='
 pp my_cards
+pp my_colors.uniq.count
+puts '==============='
 kind = ''
 nums = my_cards.keys.sort
+pp nums
 if my_cards[nums[0]] == my_cards[nums[1]] 
     puts "true"
+end
+
+if nums.count == 7 # straight_flush, flush, straight, high_card
+    if my_colors.uniq.count == 1
+        
+        #if nums[6][-2,2].to_i - nums[3][-2,2].to_i == 3 and nums[0] == 1
+        #    puts "royal_straight nums[0]"
+        #end
+
+
+        [6,5,4].each { |i|
+            if nums[i][-2,2].to_i - nums[i - 4][-2,2].to_i == 4
+                puts "straight_flush #{nums[i]}"
+            end
+        }
+
+    end
+        if nums[6][-2,2].to_i - nums[6 - 4][-2,2].to_i == 4
+            puts "straight_flush #{nums[6]}"
+        else
+            puts "nothing"
+        end
 end
 
 if nums.count == 5
@@ -99,10 +139,13 @@ end
 if nums.count == 4
     kind = 'pair'
     puts kind
+    my_cards.each_key do |key|
+        puts 'pair'.key[-2,2]  if my_cards[key].to_a.count == 2
+    end
 end
 
 if nums.count == 3
-    #Todo
+    #Todo 2 pair + 1 or 1 three + 1 + 1
     my_cards[nums[id]]
 end
 
@@ -118,25 +161,24 @@ def kinds_of cards
     # stright flush and flush
     kind = ''
     if nums.count == 5
-    if nums[4][-2,2].to_i - nums[0][-2,2].to_i == 4 
-        flush = 1
-        1.upto(4) do |id|
-            if my_cards[nums[0]] != my_cards[nums[id]]
-                flush = 0
-                break
+        if nums[4][-2,2].to_i - nums[0][-2,2].to_i == 4 
+            flush = 1
+            1.upto(4) do |id|
+                if my_cards[nums[0]] != my_cards[nums[id]]
+                    flush = 0
+                    break
+                end
+            end
+
+            if flush == 1
+                kind = 'stright_flush'
+                puts kind
+            else
+                kind = 'stright'
+                puts kind
             end
         end
-
-        if flush == 1
-            kind = 'stright_flush'
-            puts kind
-        else
-            kind = 'stright'
-            puts kind
-        end
     end
-    end
-    # TODO
 end
 
 
